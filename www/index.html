@@ -1,0 +1,134 @@
+<html ng-app="ionicApp">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <title>ED Logística</title>
+
+  <link href="css/ionic.css" rel="stylesheet">
+  <script src="js/ionic.bundle.js"></script>
+
+
+</head>
+
+<body>
+
+  <div ng-controller="AppController">
+    <ion-nav-view></ion-nav-view>
+  </div>
+
+  <script id="app.html" type="text/ng-template">
+    <ion-side-menus>
+
+      <ion-side-menu-content>
+        <ion-nav-bar class="bar-positive">
+          <ion-nav-back-button class="button-icon ion-arrow-left-c">
+          </ion-nav-back-button>
+        </ion-nav-bar>
+        <ion-nav-buttons side="left">
+          <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
+          </button>
+        </ion-nav-buttons>
+        <ion-nav-view name="appContent"></ion-nav-view>
+      </ion-side-menu-content>
+
+      <ion-side-menu side="left">
+        <ion-header-bar class="bar-dark">
+          <h1 class="title">Menu</h1>
+        </ion-header-bar>
+        <ion-content>
+          <div class="list">
+            <a class="item" id="lec" site-link="lec.html" data-ng-click="selectItem($event);">Lote Econômico de Compra</a>
+            <a class="item" id="cam" site-link="cam.html" data-ng-click="selectItem($event);">Custo de Armazenagem</a>
+            <a class="item" id="cdc" site-link="cdc.html" data-ng-click="selectItem($event);">Custo de Comprar</a>
+            <a class="item" id="lef" site-link="lef.html" data-ng-click="selectItem($event);">Lote Econômico de Fabricação</a>
+            <a class="item" id="iop" site-link="iop.html" data-ng-click="selectItem($event);">Intervalo Otimo de Pedidos</a>
+            <a class="item" id="nop" site-link="nop.html" data-ng-click="selectItem($event);">Número Otimo de Pedidos</a>
+            <a class="item" id="rop" site-link="rop.html" data-ng-click="selectItem($event);">Reorder Point</a>
+            <a class="item" id="eds" site-link="eds.html" data-ng-click="selectItem($event);">Estoque de Segurança</a>
+            <a class="item" id="em"  site-link="em.html"  data-ng-click="selectItem($event);">Estoque Médio</a>
+          </div>
+        </ion-content>
+      </ion-side-menu>
+    </ion-side-menus>
+  </script>
+
+  <script id="home.html" type="text/ng-template">
+    <ion-view id="head" title="{{myTitle}}">
+      <ion-content padding="true">
+        <iframe style="width: 100%; height: 100%;"  id="iframe" src="{{htmlPath}}"></iframe>
+      </ion-content>
+    </ion-view>
+  </script>
+</body>
+<script>
+  angular.module('ionicApp', ['ionic'])
+
+  .config(function($stateProvider, $urlRouterProvider) {
+
+    $stateProvider
+      .state('app', {
+        url: "/app",
+        abstract: true,
+        templateUrl: "app.html"
+      })
+      .state('app.home', {
+        url: "/home",
+        views: {
+          'appContent': {
+            templateUrl: "home.html",
+            controller: "HomeController"
+          }
+        }
+      })
+
+
+    $urlRouterProvider.otherwise("/app/home");
+  })
+
+  .controller('AppController', function($scope, $ionicSideMenuDelegate) {
+    var promise = new Promise(function(resolve, reject) {
+      resolve("Controle de Estoque");
+    });
+    promise.then(function(myTitle) {
+        $scope.myTitle = myTitle;
+    });
+    var path = new Promise(function(resolve, reject) {
+      resolve("home.html");
+    });
+    path.then(function(html) {
+        $scope.htmlPath = html;
+    });
+    $scope.toggleLeft = function() {
+      $ionicSideMenuDelegate.toggleLeft();
+    };
+    $scope.selectItem = function(obj) {
+      $ionicSideMenuDelegate.toggleLeft();
+      // alert(obj.target.innerHTML);
+      angular.element(document.getElementById("head")).attr("title", obj.target.innerHTML);
+      var promise = new Promise(function(resolve, reject) {
+        resolve(obj.target.innerHTML);
+      });
+      promise.then(function(myTitle) {
+          $scope.myTitle = myTitle;
+      });
+      var path = new Promise(function(resolve, reject) {
+        resolve(obj.target.id + ".html");
+      });
+      path.then(function(html) {
+          $scope.htmlPath = html;
+      });
+
+    };
+  })
+
+  .controller("HomeController", function($scope) {
+
+  })
+  // function selectItem(obj) {
+  //   $("#iframe").attr("src", $(obj).attr("site-link"));
+  // }
+</script>
+
+</html>

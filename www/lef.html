@@ -1,0 +1,50 @@
+<html ng-app="ionicApp">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <title>Side Menus</title>
+
+  <link href="css/ionic.css" rel="stylesheet">
+  <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="list">
+  <label class="item item-input">
+    <input type="number" id="cp" onchange="calcula();" placeholder="Custo de Preparação" step="0.01" min="0">
+  </label>
+  <label class="item item-input">
+    <input type="number" id="d" onchange="calcula();" placeholder="Demanda" step="0.01" min="0">
+  </label>
+  <label class="item item-input">
+    <input type="number" id="v" onchange="calcula();" placeholder="Capacidade de Produção" step="0.01" min="0">
+  </label>
+  <label class="item item-input">
+    <input type="number" id="ca" onchange="calcula();" placeholder="Custo de Armazenagem" step="0.01" min="0">
+  </label>
+  <label class="item item-input">
+    <input type="number" id="i" onchange="calcula();" placeholder="Custo de Capital Imobilizado" step="0.01" min="0">
+  </label>
+  <label class="item item-input">
+    <input type="number" id="p" onchange="calcula();" placeholder="Custo Unitário de Produção" step="0.01" min="0">
+  </label>
+</div>
+<h3 align="center">Resultado:</h3>
+<h1 id="result" align="center"></h1>
+</body>
+<script>
+function calcula(){
+  var cp = 2 * parseFloat($("#cp").val());
+  var d = parseFloat($("#d").val());
+  var ca = parseFloat($("#ca").val());
+  var i = parseFloat($("#i").val());
+  var p = parseFloat($("#p").val());
+  var v = parseFloat($("#v").val());
+  var result = Math.sqrt((cp * d) / (ca + i * p) * (1 - (d / v)));
+  if(!isNaN(result))
+    $("#result").html(result.toString());
+}
+</script>
+</html>

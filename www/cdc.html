@@ -1,0 +1,32 @@
+<html ng-app="ionicApp">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <title>Side Menus</title>
+
+  <link href="css/ionic.css" rel="stylesheet">
+  <script src="js/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="list">
+  <label class="item item-input">
+    <input type="number" id="q" onchange="calcula();" placeholder="Estoque Médio" step="0.01" min="0">
+  </label>
+  <label class="item item-input">
+    <input type="number" id="d" onchange="calcula();" placeholder="Consumo Anual" step="0.01" min="0">
+  </label>
+</div>
+<h3 align="center">Resultado:</h3>
+<h1 id="result" align="center"></h1>
+</body>
+<script>
+function calcula(){
+  var result = Math.sqrt(parseFloat($("#d").val()) / parseFloat($("#q").val()));
+  if(!isNaN(result))
+    $("#result").html(result.toString());
+}
+</script>
+</html>
